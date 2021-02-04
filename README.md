@@ -4,9 +4,6 @@
 
 A GTK greetd client, built with [Relm](https://github.com/antoyo/relm) in Rust.
 
-
-Requires
-
 ## Installation
 
 ### Dependencies
