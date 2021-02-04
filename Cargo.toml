@@ -1,0 +1,27 @@
+[package]
+name = "greetd-gtk-greeter-rs"
+version = "0.1.0"
+authors = ["Adib Saad <adib.saad@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+greetd_ipc = { version = "0.6", features = ["sync-codec"] }
+dbus = "0.9.1"
+
+[dependencies.pango]
+git = "https://github.com/gtk-rs/gtk-rs"
+
+[dependencies.gtk]
+git = "https://github.com/gtk-rs/gtk-rs"
+features = ["v3_22_29"]
+
+[dependencies.gtk-layer-shell-rs]
+git = "https://github.com/subgraph/gtk-layer-shell-rs"
+
+[dependencies.relm]
+git = "https://github.com/adibsaad/relm"
+rev = "aca3fb3"
+
+[dependencies.relm-derive]
+git = "https://github.com/adibsaad/relm"
+rev = "aca3fb3"
