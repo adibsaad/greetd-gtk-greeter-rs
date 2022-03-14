@@ -123,7 +123,7 @@ impl Widget for Prompt {
     }
   }
   fn init_view(&mut self) {
-    let style_context = self.widgets.prompt.get_style_context();
+    let style_context = self.widgets.prompt.style_context();
     let style = include_bytes!("./css/prompt.css");
     let provider = CssProvider::new();
     provider.load_from_data(style).unwrap();
@@ -132,7 +132,7 @@ impl Widget for Prompt {
     self
       .widgets
       .info_bar
-      .get_content_area()
+      .content_area()
       .pack_start(&self.model.info_label, true, true, 0);
 
     let model = gtk::ListStore::new(&[str::static_type(), str::static_type()]);
@@ -153,10 +153,10 @@ impl Widget for Prompt {
         _ => continue,
       };
 
-      model.insert_with_values(None, &[0, 1], &[&id, &display]);
+      model.insert_with_values(None, &[(0, &id), (1, &display)]);
     }
 
-    model.insert_with_values(None, &[0, 1], &[&OTHER_ID, &"Other..."]);
+    model.insert_with_values(None, &[(0, &OTHER_ID), (1, &"Other...")]);
 
     self.widgets.user_list.set_model(Some(&model));
     self.widgets.user_list.set_active(Some(0));
@@ -220,16 +220,13 @@ impl Widget for Prompt {
 
         self.model.selected_user = match active_idx {
           Some(idx) => {
-            let model = match self.widgets.user_list.get_model() {
+            let model = match self.widgets.user_list.model() {
               Some(m) => m,
               _ => return,
             };
-            let val = model.get_value(&idx, 0);
+            let val = model.value(&idx, 0);
             let username = match val.get::<&str>() {
-              Ok(s) => match s {
-                Some(s) => s,
-                _ => return,
-              },
+              Ok(s) => s,
               _ => return,
             };
             self.model.other_login = username == OTHER_ID;
@@ -270,7 +267,7 @@ impl Widget for Prompt {
             gtk::ComboBox {
               margin_top: 10,
               sensitive: !self.model.is_submitting,
-              changed(combobox) => Msg::OnSelectionChanged(combobox.get_active_iter())
+              changed(combobox) => Msg::OnSelectionChanged(combobox.active_iter())
             },
             #[name="username_entry"]
             gtk::Entry {
@@ -278,10 +275,10 @@ impl Widget for Prompt {
               placeholder_text: Some("Enter Username"),
               sensitive: !self.model.is_submitting,
               visible: self.model.other_login,
-              property_width_request: 200,
+              width_request: 200,
               text: &self.model.username,
 
-              changed(entry) => Msg::OnUsernameChange(entry.get_text().to_string()),
+              changed(entry) => Msg::OnUsernameChange(entry.text().to_string()),
               activate => Msg::OnSubmit,
             },
             #[name="password_entry"]
@@ -291,10 +288,10 @@ impl Widget for Prompt {
               margin_bottom: 10,
               sensitive: !self.model.is_submitting,
               visibility: false,
-              property_width_request: 200,
+              width_request: 200,
               text: &self.model.password,
 
-              changed(entry) => Msg::OnPasswordChange(entry.get_text().to_string()),
+              changed(entry) => Msg::OnPasswordChange(entry.text().to_string()),
               activate => Msg::OnSubmit,
             },
           },

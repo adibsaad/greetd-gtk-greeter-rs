@@ -17,7 +17,7 @@ impl Widget for AppContainer {
   }
   fn update(&mut self, _: Msg) {}
   fn init_view(&mut self) {
-    let style_context = self.widgets.main_win.get_style_context();
+    let style_context = self.widgets.main_win.style_context();
     let style = include_bytes!("./css/app.css");
     let provider = CssProvider::new();
     provider.load_from_data(style).unwrap();

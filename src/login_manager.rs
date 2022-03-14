@@ -117,7 +117,7 @@ impl LoginManager {
     };
     Request::CancelSession.write_to(&mut stream)?;
     match Response::read_from(&mut stream)? {
-      Response::AuthMessage { .. } => Err(format!("Unexecpted auth response").into()),
+      Response::AuthMessage { .. } => Err(format!("Unexpected auth response").into()),
       Response::Success => Ok(String::from("cancelled successfully")),
       Response::Error {
         error_type,

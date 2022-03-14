@@ -8,6 +8,8 @@ edition = "2018"
 greetd_ipc = { version = "0.6", features = ["sync-codec"] }
 dbus = "0.9.1"
 relm = "0.22.0"
+relm-derive = "0.22.0"
 gtk = { version = "0.14.0", features = ["v3_22_30"] }
 gtk-sys = { version = "0.14.0", features = ["v3_22_30"] }
-gtk-layer-shell-sys = "0.2.3"
+gtk-layer-shell = "0.2.2"
+pango = "0.14.0"
